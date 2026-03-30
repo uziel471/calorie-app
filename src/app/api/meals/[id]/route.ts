@@ -8,17 +8,20 @@ import { normalizeToLocalMidday } from "@/lib/date";
 // DELETE /api/meals/[id]
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   try {
+     const { id } = context.params as { id: string };
+
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     await connectDB();
 
     const meal = await Meal.findOneAndDelete({
-      _id: params.id,
-      userId: session.user.id, // ensure ownership
+      _id: id,
+      userId: session.user.id,
     });
 
     if (!meal) {
@@ -35,20 +38,28 @@ export async function DELETE(
 // PATCH /api/meals/[id]
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   try {
+     const { id } = context.params as { id: string };
+
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     const body = await req.json();
     await connectDB();
+
     const timeZone = req.headers.get("x-timezone") || "UTC";
+
     const meal = await Meal.findOneAndUpdate(
-      { _id: params.id, userId: session.user.id },
-      { ...body, date: body.date
-      ? normalizeToLocalMidday(body.date, timeZone)
-      : undefined, },
+      { _id: id, userId: session.user.id },
+      {
+        ...body,
+        date: body.date
+          ? normalizeToLocalMidday(body.date, timeZone)
+          : undefined,
+      },
       { new: true }
     );
 

@@ -7,16 +7,16 @@ import WeightLog from "@/models/WeightLog";
 // DELETE /api/weight-log/[id]
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
     await connectDB();
-
+     const { id } = context.params as { id: string };
     const log = await WeightLog.findOneAndDelete({
-      _id: params.id,
+      _id: id,
       userId: session.user.id,
     });
 
