@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 210 40% 96%;
+
+    --card: 220 15% 7%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 220 15% 7%;
+    --popover-foreground: 210 40% 96%;
+
+    /* 🔵 Azul rey */
+    --primary: 220 90% 56%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 220 15% 14%;
+    --muted-foreground: 220 15% 65%;
+
+    --accent: 220 90% 56%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 96%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 220 90% 56%;
+
+    --radius: 0.75rem;
+
+    /* PWA safe areas */
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+
+    /* Bottom nav height */
+    --bottom-nav-h: calc(4rem + var(--sab));
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+
+  html {
+    /* Prevent font size adjustment on mobile orientation change */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "DM Sans", sans-serif;
+    /* Smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Syne", sans-serif;
+  }
+
+  /* Better tap targets on mobile */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Native-feel inputs on iOS */
+  input, select, textarea {
+    font-size: 16px; /* prevents zoom on focus on iOS */
+  }
+}
+
+/* ── Scrollbar (desktop only) ──────────────────────────────────────────── */
+@media (hover: hover) {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+}
+
+/* ── Auth background ───────────────────────────────────────────────────── */
+.auth-bg {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, hsla(220, 90%, 56%, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, hsla(220, 80%, 50%, 0.07) 0%, transparent 50%);
+  min-height: 100dvh; /* dynamic viewport height — handles mobile browser chrome */
+  padding-top: var(--sat);
+  padding-bottom: var(--sab);
+}
+
+/* Grain overlay */
+.auth-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Animations ────────────────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 hsla(220, 90%, 56%, 0.4); }
+  70% { box-shadow: 0 0 0 8px hsla(220, 90%, 56%, 0); }
+  100% { box-shadow: 0 0 0 0 hsla(220, 90%, 56%, 0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.step-active   { animation: pulse-ring 2s infinite; }
+.field-animate { opacity: 0; animation: fade-in 0.35s ease-out forwards; }
+.slide-up      { animation: slide-up 0.3s ease-out; }
+
+/* ── Mobile bottom nav padding ─────────────────────────────────────────── */
+/* Pages inside dashboard need bottom padding on mobile so content
+   isn't hidden behind the fixed bottom nav */
+.mobile-page-bottom {
+  padding-bottom: calc(var(--bottom-nav-h) + 1rem);
+}
+
+/* ── Bottom nav drawer backdrop ────────────────────────────────────────── */
+.nav-drawer-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}

@@ -1,0 +1,40 @@
+{
+  "name": "CalorieTrack",
+  "short_name": "CalorieTrack",
+  "description": "Controla tus calorías y alcanza tus metas",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0a0806",
+  "theme_color": "#f27c28",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness", "food"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Agregar comida",
+      "short_name": "Comida",
+      "url": "/dashboard/meals",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ver progreso",
+      "short_name": "Progreso",
+      "url": "/dashboard/progress",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
