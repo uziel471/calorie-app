@@ -140,7 +140,7 @@
 
 /* ── Bottom nav drawer backdrop ────────────────────────────────────────── */
 .nav-drawer-backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
